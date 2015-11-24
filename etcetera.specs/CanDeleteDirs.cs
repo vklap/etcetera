@@ -1,8 +1,10 @@
-﻿namespace etcetera.specs
+﻿using NUnit.Framework;
+
+namespace etcetera.specs
 {
     using Should;
-    using Xunit;
 
+    [TestFixture]
     public class CanDeleteDirs :
         EtcdBase
     {
@@ -14,25 +16,25 @@
             _deleteResponse = Client.DeleteDir(AKey);
         }
 
-        [Fact]
+        [Test]
         public void ActionIsSet()
         {
             _deleteResponse.Action.ShouldEqual("delete");
         }
 
-        [Fact]
+        [Test]
         public void ValueIsWassup()
         {
             _deleteResponse.Node.Value.ShouldBeNull();
         }
 
-        [Fact]
+        [Test]
         public void IsDir()
         {
             _deleteResponse.Node.Dir.ShouldBeTrue();
         }
 
-        [Fact]
+        [Test]
         public void KeyIsSet()
         {
             _deleteResponse.Node.Key.ShouldEqual("/" + AKey);

@@ -1,17 +1,19 @@
 ﻿using System.Diagnostics;
+using NUnit.Framework;
 
 namespace etcetera.specs
 {
     using System.Threading;
     using Should;
-    using Xunit;
 
+    [Ignore]
+    [TestFixture]
     public class CanWatchKeys :
         EtcdBase
     {
         ManualResetEvent _wasHit;
 
-        [Fact]
+        [Test]
         public void ActionIsSet()
         {
             _wasHit = new ManualResetEvent(false);
@@ -26,7 +28,7 @@ namespace etcetera.specs
             _wasHit.WaitOne(1000).ShouldBeTrue();
         }
 
-        [Fact]
+        [Test]
         public void WhenWatchTimesOut()
         {
             _wasHit = new ManualResetEvent(false);

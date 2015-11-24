@@ -1,7 +1,8 @@
-﻿namespace etcetera.specs
+﻿using NUnit.Framework;
+
+namespace etcetera.specs
 {
     using Should;
-    using Xunit;
 
     public class TrimUserSuppliedPath :
         EtcdBase
@@ -13,19 +14,19 @@
             _response = Client.Set(AKey, "wassup");
         }
 
-        [Fact]
+        [Test]
         public void ActionIsSet()
         {
             _response.Action.ShouldEqual("set");
         }
 
-        [Fact]
+        [Test]
         public void ValueIsWassup()
         {
             _response.Node.Value.ShouldEqual("wassup");
         }
 
-        [Fact]
+        [Test]
         public void KeyIsSet()
         {
             _response.Node.Key.ShouldEqual("/"+AKey);

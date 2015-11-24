@@ -1,9 +1,11 @@
-﻿namespace etcetera.specs
+﻿using NUnit.Framework;
+
+namespace etcetera.specs
 {
     using System;
     using Should;
-    using Xunit;
 
+    [TestFixture]
     public class CanUpdateDirsWithTtl :
         EtcdBase
     {
@@ -18,56 +20,56 @@
             _now = DateTime.Now;
         }
 
-        [Fact]
+        [Test]
         public void ActionIsUpdate()
         {
             _response.Action.ShouldEqual("update");
         }
 
-        [Fact]
+        [Test]
         public void KeyIsSet()
         {
             _response.Node.Key.ShouldEqual("/" + AKey);
         }
 
-        [Fact]
+        [Test]
         public void TtlIsSet()
         {
             _response.Node.Ttl.ShouldEqual(_ttl);
         }
 
-        [Fact]
+        [Test]
         public void IsDir()
         {
             _response.Node.Dir.ShouldBeTrue();
         }
 
-        [Fact]
+        [Test]
         public void ExpirationIsSet()
         {
             _response.Node.Expiration.ShouldBeGreaterThan(_now.AddSeconds(_ttl).AddSeconds(-1));
             _response.Node.Expiration.ShouldBeLessThan(_now.AddSeconds(_ttl).AddSeconds(1));
         }
 
-        [Fact]
+        [Test]
         public void PrevKeyIsSet()
         {
             _response.PrevNode.Key.ShouldEqual("/" + AKey);
         }
 
-        [Fact]
+        [Test]
         public void PrevTtlIsNotSet()
         {
             _response.PrevNode.Ttl.ShouldBeNull();
         }
 
-        [Fact]
+        [Test]
         public void PrevIsDir()
         {
             _response.PrevNode.Dir.ShouldBeTrue();
         }
 
-        [Fact]
+        [Test]
         public void PrevExpirationIsNotSet()
         {
             _response.PrevNode.Expiration.ShouldBeNull();

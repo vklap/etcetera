@@ -1,11 +1,13 @@
-﻿namespace etcetera.specs
+﻿using NUnit.Framework;
+
+namespace etcetera.specs
 {
     using Should;
-    using Xunit;
 
+    [TestFixture]
     public class CanCompareAndDelete : EtcdBase
     {
-        [Fact]
+        [Test]
         public void SupportPrevValue()
         {
             var one = "one";
@@ -19,7 +21,7 @@
             rep2.Cause.ShouldEqual(string.Format("[{0} != {1}]", two, one));
         }
 
-        [Fact]
+        [Test]
         public void SupportPrevIndex()
         {
             var one = "one";
@@ -33,7 +35,7 @@
                 rep1.Node.CreatedIndex));
         }
 
-        [Fact]
+        [Test]
         public void ReturnsCompareAndDeleteData()
         {
             var one = "one";

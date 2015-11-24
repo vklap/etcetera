@@ -1,9 +1,11 @@
-﻿namespace etcetera.specs
+﻿using NUnit.Framework;
+
+namespace etcetera.specs
 {
     using System.Linq;
     using Should;
-    using Xunit;
-
+    
+    [TestFixture]
     public class CanReadQueueKeys :
         EtcdBase
     {
@@ -17,19 +19,19 @@
             _response = Client.Get(AKey, sorted:true);
         }
 
-        [Fact]
+        [Test]
         public void ActionIsSet()
         {
             _response.Action.ShouldEqual("get");
         }
 
-        [Fact]
+        [Test]
         public void NodeIsDir()
         {
             _response.Node.Dir.ShouldBeTrue();
         }
 
-        [Fact]
+        [Test]
         public void NodesHas2Values()
         {
             _response.Node.Nodes.Count().ShouldEqual(2);

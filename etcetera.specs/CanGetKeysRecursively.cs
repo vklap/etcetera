@@ -1,8 +1,10 @@
-﻿namespace etcetera.specs
+﻿using NUnit.Framework;
+
+namespace etcetera.specs
 {
     using Should;
-    using Xunit;
 
+    [TestFixture]
     public class CanGetKeysRecursively :
         EtcdBase
     {
@@ -15,31 +17,31 @@
             _getResponse = Client.Get(ADirectory, recursive:true);
         }
 
-        [Fact]
+        [Test]
         public void ActionIsGet()
         {
             _getResponse.Action.ShouldEqual("get");
         }
 
-        [Fact]
+        [Test]
         public void ValueIsNotPresent()
         {
             _getResponse.Node.Value.ShouldEqual(null);
         }
 
-        [Fact]
+        [Test]
         public void ReturnsChildren()
         {
             _getResponse.Node.Nodes.Count.ShouldEqual(2);
         }
 
-        [Fact]
+        [Test]
         public void KeyIsSet()
         {
             _getResponse.Node.Key.ShouldEqual("/" + ADirectory);
         }
 
-        [Fact]
+        [Test]
         public void IsADir()
         {
             _getResponse.Node.Dir.ShouldBeTrue();

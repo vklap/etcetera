@@ -1,11 +1,13 @@
-﻿namespace etcetera.specs
+﻿using NUnit.Framework;
+
+namespace etcetera.specs
 {
     using Should;
-    using Xunit;
 
+    [TestFixture]
     public class CanListMembers : EtcdBase
     {
-        [Fact]
+        [Test]
         public void CanGetListOfMembers()
         {
             var resp = Client.Members.List();

@@ -1,8 +1,11 @@
-﻿namespace etcetera.specs
+﻿using NUnit.Framework;
+
+namespace etcetera.specs
 {
     using Should;
-    using Xunit;
 
+    [Ignore]
+    [TestFixture]
     public class KeysWithSlashes :
         EtcdBase
     {
@@ -13,19 +16,19 @@
             _response = Client.Set("/folder1/bill", "wassup");
         }
 
-        [Fact]
+        [Test]
         public void ActionIsSet()
         {
             _response.Action.ShouldEqual("set");
         }
 
-        [Fact]
+        [Test]
         public void ValueIsWassup()
         {
             _response.Node.Value.ShouldEqual("wassup");
         }
 
-        [Fact]
+        [Test]
         public void KeyIsSet()
         {
             _response.Node.Key.ShouldEqual("/folder1/bill");

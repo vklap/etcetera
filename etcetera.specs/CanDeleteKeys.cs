@@ -1,8 +1,10 @@
-﻿namespace etcetera.specs
+﻿using NUnit.Framework;
+
+namespace etcetera.specs
 {
     using Should;
-    using Xunit;
 
+    [TestFixture]
     public class CanDeleteKeys :
         EtcdBase
     {
@@ -14,19 +16,19 @@
             _deleteResponse = Client.Delete(AKey);
         }
 
-        [Fact]
+        [Test]
         public void ActionIsSet()
         {
             _deleteResponse.Action.ShouldEqual("delete");
         }
 
-        [Fact]
+        [Test]
         public void ValueIsWassup()
         {
             _deleteResponse.Node.Value.ShouldBeNull();
         }
 
-        [Fact]
+        [Test]
         public void KeyIsSet()
         {
             _deleteResponse.Node.Key.ShouldEqual("/" + AKey);

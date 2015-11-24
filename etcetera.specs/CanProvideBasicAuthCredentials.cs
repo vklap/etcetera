@@ -1,13 +1,15 @@
 ﻿using System.Reflection;
+using NUnit.Framework;
 using RestSharp;
 using Should;
-using Xunit;
 
 namespace etcetera.specs
 {
+    [Ignore]
+    [TestFixture]
     public class CanProvideBasicAuthCredentials : EtcdBase
     {
-        [Fact]
+        [Test]
         public void CanSetUserNameAndPassword()
         {
             GetAuthenticator().ShouldBeNull();

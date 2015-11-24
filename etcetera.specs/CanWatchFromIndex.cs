@@ -1,15 +1,17 @@
-﻿namespace etcetera.specs
+﻿using NUnit.Framework;
+
+namespace etcetera.specs
 {
     using System.Threading;
     using Should;
-    using Xunit;
 
+    [TestFixture]
     public class CanWatchFromIndex :
         EtcdBase
     {
         ManualResetEvent _wasHit;
 
-        [Fact]
+        [Test]
         public void ActionIsSet()
         {
             Client.Set(AKey, "wassup");

@@ -1,9 +1,11 @@
-﻿namespace etcetera.specs
+﻿using NUnit.Framework;
+
+namespace etcetera.specs
 {
     using System.Threading;
     using Should;
-    using Xunit;
 
+    [TestFixture]
     public class CanHandleExpiredKeys :
         EtcdBase
     {
@@ -14,7 +16,7 @@
             Client.Set(AKey, "wassup", _ttl);
         }
 
-        [Fact]
+        [Test]
         public void ActionIsSet()
         {
             Thread.Sleep(2000);

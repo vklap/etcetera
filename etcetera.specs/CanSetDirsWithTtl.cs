@@ -1,9 +1,11 @@
-﻿namespace etcetera.specs
+﻿using NUnit.Framework;
+
+namespace etcetera.specs
 {
     using System;
     using Should;
-    using Xunit;
 
+    [TestFixture]
     public class CanSetDirsWithTtl :
         EtcdBase
     {
@@ -17,31 +19,31 @@
             _now = DateTime.Now;
         }
 
-        [Fact]
+        [Test]
         public void ActionIsSet()
         {
             _response.Action.ShouldEqual("set");
         }
 
-        [Fact]
+        [Test]
         public void KeyIsSet()
         {
             _response.Node.Key.ShouldEqual("/" + AKey);
         }
 
-        [Fact]
+        [Test]
         public void TtlIsSet()
         {
             _response.Node.Ttl.ShouldEqual(_ttl);
         }
 
-        [Fact]
+        [Test]
         public void IsDir()
         {
             _response.Node.Dir.ShouldBeTrue();
         }
 
-        [Fact]
+        [Test]
         public void ExpirationIsSet()
         {
             _response.Node.Expiration.ShouldBeGreaterThan(_now.AddSeconds(_ttl).AddSeconds(-1));

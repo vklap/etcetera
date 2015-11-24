@@ -1,7 +1,8 @@
+using NUnit.Framework;
+
 namespace etcetera.specs
 {
     using Should;
-    using Xunit;
 
     public class ProvidesHeaders :
         EtcdBase
@@ -15,20 +16,20 @@ namespace etcetera.specs
             _getResponse = Client.Get(AKey);
         }
 
-        [Fact]
+        [Test]
         public void EtcdIndex()
         {
             //TODO: make test more robust
             _getResponse.Headers.EtcdIndex.ShouldBeGreaterThan(0);
         }
 
-        [Fact]
+        [Test]
         public void RaftIndex()
         {
             _getResponse.Headers.RaftIndex.ShouldBeGreaterThan(0);
         }
 
-        [Fact]
+        [Test]
         public void KeyIsSet()
         {
             // From the documentation: "is an integer that will increase whenever an etcd master election happens in the cluster."

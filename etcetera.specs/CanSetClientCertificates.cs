@@ -1,9 +1,11 @@
-﻿namespace etcetera.specs
+﻿using NUnit.Framework;
+
+namespace etcetera.specs
 {
     using Should;
-    using Xunit;
     using System.Security.Cryptography.X509Certificates;
 
+    [TestFixture]
     public class CanGetSetClientCertificates :
         EtcdBase
     {
@@ -20,13 +22,13 @@
             Client.ClientCertificates = _x509CertificateCollection;
         }
 
-        [Fact]
+        [Test]
         public void ClientCertificatesIsSet()
         {
             Client.ClientCertificates.ShouldEqual(_x509CertificateCollection);
         }
 
-        [Fact]
+        [Test]
         public void ClientCertificatesCanGet()
         {
             Client.ClientCertificates.Contains(_x509Certificate);

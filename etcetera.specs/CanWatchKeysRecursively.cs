@@ -1,15 +1,18 @@
-﻿namespace etcetera.specs
+﻿using NUnit.Framework;
+
+namespace etcetera.specs
 {
     using System.Threading;
     using Should;
-    using Xunit;
 
+    [Ignore]
+    [TestFixture]
     public class CanWatchKeysRecursively :
         EtcdBase
     {
         ManualResetEvent _wasHit;
 
-        [Fact]
+        [Test]
         public void ActionIsSet()
         {
             _wasHit = new ManualResetEvent(false);

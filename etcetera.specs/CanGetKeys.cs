@@ -1,8 +1,10 @@
-﻿namespace etcetera.specs
+﻿using NUnit.Framework;
+
+namespace etcetera.specs
 {
     using Should;
-    using Xunit;
 
+    [TestFixture]
     public class CanGetKeys :
         EtcdBase
     {
@@ -14,25 +16,25 @@
             _getResponse = Client.Get(AKey);
         }
 
-        [Fact]
+        [Test]
         public void ActionIsSet()
         {
             _getResponse.Action.ShouldEqual("get");
         }
 
-        [Fact]
+        [Test]
         public void ValueIsWassup()
         {
             _getResponse.Node.Value.ShouldEqual("wassup");
         }
 
-        [Fact]
+        [Test]
         public void KeyIsSet()
         {
             _getResponse.Node.Key.ShouldEqual("/" + AKey);
         }
 
-        [Fact]
+        [Test]
         public void IsNotADir()
         {
             _getResponse.Node.Dir.ShouldBeFalse();

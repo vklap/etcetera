@@ -1,11 +1,12 @@
-﻿using Should;
-using Xunit;
+﻿using NUnit.Framework;
+using Should;
 
 namespace etcetera.specs
 {
+    [TestFixture]
     public class CanCompareAndSwapValues : EtcdBase
     {
-        [Fact]
+        [Test]
         public void ErrorsIfPreviousKeyIsPresent()
         {
             Client.Set(AKey, "one");
@@ -18,7 +19,7 @@ namespace etcetera.specs
             rep2.Message.ShouldEqual("Key already exists");
         }
 
-        [Fact]
+        [Test]
         public void ErrorsIfPreviousKeyIsNotPresent()
         {
             var rep = Client.Set(AKey, "three", prevExist: true);
@@ -30,7 +31,7 @@ namespace etcetera.specs
             rep.Message.ShouldEqual("Key not found");
         }
 
-        [Fact]
+        [Test]
         public void SupportsPreviousValue()
         {
             var one = "one";
@@ -45,7 +46,7 @@ namespace etcetera.specs
             rep2.Message.ShouldEqual("Compare failed");
         }
 
-        [Fact]
+        [Test]
         public void SupportsPreviousIndex()
         {
             var one = "one";
@@ -59,7 +60,7 @@ namespace etcetera.specs
             rep2.Message.ShouldEqual("Compare failed");
         }
 
-        [Fact]
+        [Test]
         public void ReturnsCompareAndSwapData()
         {
             var one = "one";
