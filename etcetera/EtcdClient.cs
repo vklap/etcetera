@@ -1,4 +1,6 @@
-﻿namespace etcetera
+﻿using System.Net;
+
+namespace etcetera
 {
     using System;
     using System.Linq;
@@ -10,6 +12,7 @@
     {
         readonly IRestClient _client;
         readonly Uri _keysRoot;
+        private string _username = null;
 
         public EtcdClient(Uri etcdLocation)
         {
@@ -243,6 +246,19 @@
             msg.AppendFormat("- Path: '{0}'", response.Request.Resource);
             msg.AppendFormat("- Message: '{0}'", response.ErrorMessage);
 
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                if (string.IsNullOrEmpty(_username))
+                {
+                    msg.Append("- Unauthorized: no credentials provided");
+                }
+                else
+                {
+                    msg.AppendFormat("- Unauthorized for username: '{0}'", _username);
+                }
+            }
+  
+
             return new EtceteraException(msg.ToString(), response.ErrorException);
         }
 
@@ -266,6 +282,7 @@
 
         public void SetBasicAuthentication(string username, string password)
         {
+            _username = username;
             _client.Authenticator = new HttpBasicAuthenticator(username, password);
         }
     }
