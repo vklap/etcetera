@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthBase.cs" />
+    <Compile Include="CanAuthorizeByRoles.cs" />
     <Compile Include="CanCompareAndDelete.cs" />
     <Compile Include="CanCompareAndSwapValues.cs" />
     <Compile Include="CanCreateDirs.cs" />
