@@ -15,8 +15,8 @@ namespace etcetera.Auth
 
         public List<string> roles { get; set; }
 
-        public EtcdPermissions grant { get; set; }
+        public List<string> grant { get; set; }
         
-        public EtcdPermissions revoke { get; set; }
+        public List<string> revoke { get; set; }
     }
 }

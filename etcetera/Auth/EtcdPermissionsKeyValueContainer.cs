@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace etcetera.Auth
 {
-    public class EtcdGetRolesResponse
+    public class EtcdPermissionsKeyValueContainer
     {
-        public List<string> roles { get; set; }
+        public List<string> read { get; set; }
+        
+        public List<string> write { get; set; }
     }
 }

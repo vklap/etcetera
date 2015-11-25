@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Auth\EtcdAuthModule.cs" />
     <Compile Include="Auth\EtcdError.cs" />
+    <Compile Include="Auth\EtcdPermissionsKeyValueContainer.cs" />
     <Compile Include="Auth\EtcdSetRoleRequest.cs" />
     <Compile Include="Auth\EtcdSetRoleResponse.cs" />
     <Compile Include="Auth\EtcdSetUserResponse.cs" />

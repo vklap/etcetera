@@ -8,33 +8,47 @@ namespace etcetera.Auth
 {
     public class EtcdPermissions
     {
-        public Dictionary<string, List<string>> kv { get; set; }
+        public EtcdPermissionsKeyValueContainer kv { get; set; }
 
         public void AddReadPermissions(string dir)
         {
-            EnsureKeyValueDictionaryExists();
-            if (!kv.ContainsKey("read"))
+            EnsureKeyValueExists();
+
+            if (kv.read == null)
             {
-                kv.Add("read", new List<string>());
+                kv.read = new List<string>();
             }
-            kv["read"].Add(dir);
+
+            if (kv.read.Contains(dir))
+            {
+                return;
+            }
+
+            kv.read.Add(dir);
         }
 
         public void AddWritePermissions(string dir)
         {
-            EnsureKeyValueDictionaryExists();
-            if (!kv.ContainsKey("write"))
+            EnsureKeyValueExists();
+
+            if (kv.write == null)
             {
-                kv.Add("write", new List<string>());
+                kv.write = new List<string>();    
             }
-            kv["write"].Add(dir);
+
+            if (kv.write.Contains(dir))
+            {
+                return;
+            }
+
+            kv.write.Add(dir);
         }
 
-        private void EnsureKeyValueDictionaryExists()
+        private void EnsureKeyValueExists()
         {
             if (kv == null)
             {
-                kv = new Dictionary<string, List<string>>();
+                kv = new EtcdPermissionsKeyValueContainer();
             }
         }
     }

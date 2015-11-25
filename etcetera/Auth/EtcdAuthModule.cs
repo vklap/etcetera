@@ -78,7 +78,7 @@ namespace etcetera.Auth
             }
 
             var request = new RestRequest(string.Concat(USERS_RESOURCE, "/{user}"));
-            request.AddParameter("user", user);
+            request.AddUrlSegment("user", user);
 
             var response = ExecuteRequest<EtcdGetUserDetailsResponse>(request, Method.GET);
 
@@ -98,7 +98,7 @@ namespace etcetera.Auth
             }
 
             var restRequest = new RestRequest(string.Concat(USERS_RESOURCE, "/{user}"));
-            restRequest.AddParameter("user", request.user);
+            restRequest.AddUrlSegment("user", request.user);
             restRequest.AddJsonBody(request);
             
 
@@ -114,7 +114,7 @@ namespace etcetera.Auth
             }
 
             var restRequest = new RestRequest(string.Concat(USERS_RESOURCE, "/{user}"));
-            restRequest.AddParameter("user", user);
+            restRequest.AddUrlSegment("user", user);
 
             ExecuteRequest(restRequest, Method.DELETE);
         }
@@ -136,7 +136,7 @@ namespace etcetera.Auth
             }
 
             var restRequest = new RestRequest(string.Concat(ROLES_RESOURCE, "/{role}"));
-            restRequest.AddParameter("role", role);    
+            restRequest.AddUrlSegment("role", role);    
             var response = ExecuteRequest<EtcdGetRoleDetailsResponse>(restRequest, Method.GET);
             return response;
         }
@@ -154,7 +154,7 @@ namespace etcetera.Auth
             }
 
             var restRequest = new RestRequest(string.Concat(ROLES_RESOURCE, "/{role}"));
-            restRequest.AddParameter("role", request.role);
+            restRequest.AddUrlSegment("role", request.role);
             restRequest.AddJsonBody(request);
             var response = ExecuteRequest<EtcdSetRoleResponse>(restRequest, Method.PUT);
             return response;
@@ -168,7 +168,7 @@ namespace etcetera.Auth
             }
 
             var restRequest = new RestRequest(string.Concat(ROLES_RESOURCE, "/{role}"));
-            restRequest.AddParameter("role", role);
+            restRequest.AddUrlSegment("role", role);
 
             ExecuteRequest(restRequest, Method.DELETE);
         }
@@ -176,11 +176,10 @@ namespace etcetera.Auth
         private TResponse ExecuteRequest<TResponse>(IRestRequest request, Method method) where TResponse : new()
         {
             request.Method = method;
-            
-            var response = _client.Execute<TResponse>(request);
+            HandleHttpErrorsCallback(request);
             request.RequestFormat = DataFormat.Json;
-            HandleResponse(request);
 
+            var response = _client.Execute<TResponse>(request);
             return response.Data;
         }
 
@@ -188,12 +187,12 @@ namespace etcetera.Auth
         {
             request.Method = method;
             request.RequestFormat = DataFormat.Json;
-            HandleResponse(request);
+            HandleHttpErrorsCallback(request);
             
             _client.Execute(request);
         }
 
-        private void HandleResponse(IRestRequest request)
+        private void HandleHttpErrorsCallback(IRestRequest request)
         {
             request.OnBeforeDeserialization = response =>
             {
@@ -223,7 +222,9 @@ namespace etcetera.Auth
                             value = parameter.Value as string ?? JsonConvert.SerializeObject(parameter.Value);
                         }
                         sb.AppendFormat("{0}={1}", parameter.Name, value);
+                        sb.Append(", ");
                     });
+                    sb.Remove(sb.Length - 2, 2);
                     sb.Append(")");
                 }
                 sb.Append(": ");

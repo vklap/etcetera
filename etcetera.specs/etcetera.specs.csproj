@@ -52,12 +52,14 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthBase.cs" />
     <Compile Include="CanCompareAndDelete.cs" />
     <Compile Include="CanCompareAndSwapValues.cs" />
     <Compile Include="CanCreateDirs.cs" />
     <Compile Include="CanDeleteDirs.cs" />
     <Compile Include="CanDeleteDirsWithStuff.cs" />
     <Compile Include="CanDeleteKeys.cs" />
+    <Compile Include="CanEnableAndDisableAuth.cs" />
     <Compile Include="CanGetKeysSorted.cs" />
     <Compile Include="CanGetKeysRecursively.cs" />
     <Compile Include="CanGetKeys.cs" />
@@ -65,6 +67,8 @@
     <Compile Include="CanHandleExpiredKeys.cs" />
     <Compile Include="CanListMachines.cs" />
     <Compile Include="CanListMembers.cs" />
+    <Compile Include="CanManageRoles.cs" />
+    <Compile Include="CanManageUsers.cs" />
     <Compile Include="CanProvideBasicAuthCredentials.cs" />
     <Compile Include="CanQueueKeys.cs" />
     <Compile Include="CanReadQueueKeys.cs" />
