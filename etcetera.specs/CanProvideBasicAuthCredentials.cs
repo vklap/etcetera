@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using NUnit.Framework;
 using RestSharp;
+using RestSharp.Authenticators;
 using Should;
 
 namespace etcetera.specs

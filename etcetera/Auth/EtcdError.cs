@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace etcetera.Auth
 {
-    public class EtcdGetUserDetailsResponse
+    public class EtcdError
     {
-        public string user { get; set; }
-        public List<string> roles { get; set; }
+        public string message { get; set; }
     }
 }
