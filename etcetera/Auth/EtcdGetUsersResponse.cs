@@ -9,6 +9,6 @@ namespace etcetera.Auth
 {
     public class EtcdGetUsersResponse
     {
-        public List<EtcdUser> users { get; set; } 
+        public List<string> users { get; set; } 
     }
 }

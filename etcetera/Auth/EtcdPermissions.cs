@@ -8,6 +8,11 @@ namespace etcetera.Auth
 {
     public class EtcdPermissions
     {
+        public EtcdPermissions()
+        {
+            EnsureKeyValueExists();
+        }
+
         public EtcdPermissionsKeyValueContainer kv { get; set; }
 
         public void AddReadPermissions(string dir)
@@ -48,7 +53,11 @@ namespace etcetera.Auth
         {
             if (kv == null)
             {
-                kv = new EtcdPermissionsKeyValueContainer();
+                kv = new EtcdPermissionsKeyValueContainer
+                {
+                    read = new List<string>(),
+                    write = new List<string>()
+                };
             }
         }
     }

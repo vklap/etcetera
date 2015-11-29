@@ -57,8 +57,8 @@ namespace etcetera.specs
             var result = AuthModule.GetUsers();
 
             result.users.Count.ShouldBeGreaterThan(2);
-            result.users.FirstOrDefault(u => u.user == USERNAME_1).ShouldNotBeNull();
-            result.users.FirstOrDefault(u => u.user == USERNAME_2).ShouldNotBeNull();
+            result.users.FirstOrDefault(username => username == USERNAME_1).ShouldNotBeNull();
+            result.users.FirstOrDefault(username => username == USERNAME_2).ShouldNotBeNull();
         }
 
         [Test]
@@ -69,6 +69,36 @@ namespace etcetera.specs
 
             user1.roles.ShouldContain(ROLE_1);
             user2.roles.ShouldContain(ROLE_2);
+        }
+
+        [Test]
+        public void ShouldGrantRole()
+        {
+            AuthModule.SetUser(new EtcdSetUserRequest
+            {
+                user = USERNAME_1,
+                grant = new List<string> {ROLE_2}
+            });
+
+            var userDetails = AuthModule.GetUser(USERNAME_1);
+
+            userDetails.roles.Count.ShouldEqual(2);
+            userDetails.roles.ShouldContain(ROLE_1);
+            userDetails.roles.ShouldContain(ROLE_2);
+        }
+
+        [Test]
+        public void ShouldRevokeRole()
+        {
+            AuthModule.SetUser(new EtcdSetUserRequest
+            {
+                user = USERNAME_1,
+                revoke = new List<string> { ROLE_1 }
+            });
+
+            var userDetails = AuthModule.GetUser(USERNAME_1);
+
+            userDetails.roles.Count.ShouldEqual(0);
         }
     }
 }

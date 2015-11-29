@@ -82,11 +82,51 @@ namespace etcetera.specs
 
             readerPermissions.role.ShouldEqual(ROLE_WITH_READ_PERMISSIONS);
             readerPermissions.permissions.kv.read.ShouldContain("/fleet/*");
-            readerPermissions.permissions.kv.write.ShouldBeNull();
+            readerPermissions.permissions.kv.write.Count.ShouldEqual(0);
 
             writerPermissions.role.ShouldEqual(ROLE_WITH_WRITE_PERMISSIONS);
             writerPermissions.permissions.kv.write.ShouldContain("/fleet/*");
-            writerPermissions.permissions.kv.read.ShouldBeNull();
+            writerPermissions.permissions.kv.read.Count.ShouldEqual(0);
+        }
+
+        [Test]
+        public void ShouldHandleRevokePermissions()
+        {
+            var permissionsToRevoke = new EtcdPermissions();
+            permissionsToRevoke.AddWritePermissions("/fleet/*");
+            
+            AuthModule.SetRole(new EtcdSetRoleRequest
+            {
+                role = ROLE_WITH_READ_WRITE_PERMISSIONS,
+                revoke = permissionsToRevoke
+            });
+
+            var ownerPermissions = AuthModule.GetRoleDetails(ROLE_WITH_READ_WRITE_PERMISSIONS);
+
+            ownerPermissions.role.ShouldEqual(ROLE_WITH_READ_WRITE_PERMISSIONS);
+            ownerPermissions.permissions.kv.read.ShouldContain("/fleet/*");
+            ownerPermissions.permissions.kv.write.Count.ShouldEqual(0);
+        }
+
+        [Test]
+        public void ShouldHandleGrantPermissions()
+        {
+            var permissionsToGrant = new EtcdPermissions();
+            permissionsToGrant.AddWritePermissions("/bar/*");
+
+            AuthModule.SetRole(new EtcdSetRoleRequest
+            {
+                role = ROLE_WITH_READ_WRITE_PERMISSIONS,
+                grant = permissionsToGrant
+            });
+
+            var ownerPermissions = AuthModule.GetRoleDetails(ROLE_WITH_READ_WRITE_PERMISSIONS);
+
+            ownerPermissions.role.ShouldEqual(ROLE_WITH_READ_WRITE_PERMISSIONS);
+            ownerPermissions.permissions.kv.read.ShouldContain("/fleet/*");
+            ownerPermissions.permissions.kv.write.Count.ShouldEqual(2);
+            ownerPermissions.permissions.kv.write.ShouldContain("/fleet/*");
+            ownerPermissions.permissions.kv.write.ShouldContain("/bar/*");
         }
     }
 }
