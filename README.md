@@ -38,8 +38,8 @@ private static void FollowUp(EtcdResponse obj)
 }
 ```
 # Authorization Support
-The AuthModule provides a facade to the new etcd 2.2 security enhancements.
-In order to use those new enhancements, you should proceed with the following 3 simple steps:
+
+The AuthModule provides a facade to the new [etcd 2.2 security enhancements](https://github.com/coreos/etcd/blob/master/Documentation/auth_api.md). In order to use those new enhancements, you should proceed with the following 3 simple steps:
 
 ## 1. Enable new Auth enhancemsnts:
 ```
