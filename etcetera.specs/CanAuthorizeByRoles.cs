@@ -28,6 +28,7 @@ namespace etcetera.specs
         private string ROLE_WITH_WRITE_PERMISSIONS = string.Format("writer-role-{0}", Guid.NewGuid());
         private string ROLE_WITH_READ_PERMISSIONS = string.Format("reader-role-{0}", Guid.NewGuid());
 
+        private IEtcdClient _clientWithNoCredentials = null;
         private IEtcdClient _owner = null;
         private IEtcdClient _reader = null;
         private IEtcdClient _writer = null;
@@ -126,6 +127,22 @@ namespace etcetera.specs
             _reader.Get(KEY_2).Node.Value.ShouldEqual(VALUE_2);
         }
 
+        [Test]
+        public void ItShouldFailGivenClientDidNotProvideAnyCredentials()
+        {
+            Assert.Throws<EtceteraException>(() => _clientWithNoCredentials.Get(KEY_1));
+            Assert.Throws<EtceteraException>(() => _clientWithNoCredentials.Get(KEY_2));
+
+            var exKey1 = Assert.Throws<EtceteraException>(() => _clientWithNoCredentials.Set(KEY_1, "some-other-value"));
+            var exKey2 = Assert.Throws<EtceteraException>(() => _clientWithNoCredentials.Set(KEY_2, "yet-another-value"));
+
+            exKey1.StatusCode.ShouldEqual(HttpStatusCode.Unauthorized);
+            exKey2.StatusCode.ShouldEqual(HttpStatusCode.Unauthorized);
+
+            _reader.Get(KEY_1).Node.Value.ShouldEqual(VALUE_1);
+            _reader.Get(KEY_2).Node.Value.ShouldEqual(VALUE_2);
+        }
+
         private void CreateRoles()
         {
             var fullPermissions = new EtcdPermissions();
@@ -187,6 +204,8 @@ namespace etcetera.specs
 
         private void InitEtcdClients()
         {
+            _clientWithNoCredentials = new EtcdClient(EtcdLocation);
+
             _owner = new EtcdClient(EtcdLocation);
             _owner.SetBasicAuthentication(USERNAME_OWNER, "123456");
             
