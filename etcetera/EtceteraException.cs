@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace etcetera
 {
     using System;
@@ -14,12 +16,15 @@ namespace etcetera
         {
         }
 
-        public EtceteraException(string message, Exception innerException) : base(message, innerException)
+        public EtceteraException(string message, Exception innerException, HttpStatusCode statusCode) : base(message, innerException)
         {
+            StatusCode = statusCode;
         }
 
         protected EtceteraException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
+
+        public HttpStatusCode StatusCode { get; private set; }
     }
 }

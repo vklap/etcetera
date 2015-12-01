@@ -62,7 +62,7 @@ namespace etcetera
             msg.AppendFormat("- Path: '{0}'", response.Request.Resource);
             msg.AppendFormat("- Message: '{0}'", response.ErrorMessage);
 
-            return new EtceteraException(msg.ToString(), response.ErrorException);
+            return new EtceteraException(msg.ToString(), response.ErrorException, response.StatusCode);
         }
     }
 }

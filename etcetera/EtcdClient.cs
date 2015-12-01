@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Runtime.Remoting.Messaging;
 using RestSharp.Authenticators;
 
 namespace etcetera
@@ -213,7 +214,6 @@ namespace etcetera
             return etcdResponse;
         }
 
-
         static EtcdResponse processRestResponse(IRestResponse<EtcdResponse> response)
         {
             if (response == null) return null;
@@ -234,10 +234,21 @@ namespace etcetera
             return etcdResponse;
         }
 
-
         static bool checkForError(IRestResponse<EtcdResponse> response)
         {
-            return response.StatusCode == 0;
+            var statusCode = (int) response.StatusCode;
+
+            // Backwards compatibility
+            if (statusCode == 0)
+                return true;
+            if (response.StatusCode == HttpStatusCode.NotFound)
+                return false;
+            if (response.StatusCode == HttpStatusCode.PreconditionFailed)
+                return false;
+            
+            if (statusCode < 400)
+                return false;
+            return true;
         }
 
         Exception constructException(IRestResponse<EtcdResponse> response)
@@ -260,7 +271,7 @@ namespace etcetera
             }
   
 
-            return new EtceteraException(msg.ToString(), response.ErrorException);
+            return new EtceteraException(msg.ToString(), response.ErrorException, response.StatusCode);
         }
 
         public IEtcdStatisticsModule Statistics { get; private set; }
